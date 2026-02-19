@@ -1,0 +1,239 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --signal-bg: #050506;
+  --signal-fg: #f1f0ec;
+  --signal-muted: rgba(241, 240, 236, 0.66);
+  --spine-x: clamp(1.2rem, 4vw, 3.25rem);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  padding: 0;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 82% 12%, rgba(255, 255, 255, 0.05), transparent 58%),
+    radial-gradient(900px 480px at 10% 82%, rgba(255, 255, 255, 0.03), transparent 55%),
+    var(--signal-bg);
+  color: var(--signal-fg);
+  font-family: var(--font-body), "Segoe UI", sans-serif;
+  text-rendering: geometricPrecision;
+}
+
+.signal-section {
+  min-height: 100svh;
+  width: 100%;
+}
+
+.signal-section-opening {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.signal-section-reveal {
+  display: flex;
+  align-items: center;
+  padding: clamp(3rem, 8vh, 6rem) 1.5rem;
+}
+
+.signal-content {
+  margin-left: clamp(3.3rem, 10vw, 8rem);
+  max-width: min(70ch, 90vw);
+}
+
+.signal-reveal-group {
+  display: grid;
+  gap: clamp(0.9rem, 2.8vh, 1.5rem);
+}
+
+.signal-identity-line {
+  margin: 0;
+  color: var(--signal-fg);
+  font-size: clamp(1.1rem, 2.3vw, 2rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.signal-quote {
+  margin: clamp(2.2rem, 7vh, 4rem) 0 0;
+  max-width: 38ch;
+  color: var(--signal-muted);
+  font-size: clamp(1.05rem, 1.8vw, 1.4rem);
+  line-height: 1.6;
+}
+
+.signal-name {
+  font-family: var(--font-display), "Times New Roman", serif;
+  font-size: clamp(2.3rem, 7vw, 6.2rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.signal-section-branches {
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-start;
+  padding: clamp(3.5rem, 10vh, 7rem) 1.5rem clamp(5rem, 11vh, 8rem);
+}
+
+.signal-branch-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 0.95rem;
+  margin-bottom: clamp(1.6rem, 5vh, 2.7rem);
+}
+
+.signal-branch-label {
+  background: transparent;
+  border: 0;
+  color: var(--signal-muted);
+  cursor: pointer;
+  font-family: var(--font-body), "Segoe UI", sans-serif;
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+  letter-spacing: 0.11em;
+  padding: 0;
+  text-transform: uppercase;
+  transition: color 220ms ease, opacity 220ms ease;
+}
+
+.signal-branch-label.is-hovered,
+.signal-branch-label.is-active {
+  color: var(--signal-fg);
+}
+
+.signal-branch-label.is-dimmed {
+  opacity: 0.32;
+}
+
+.signal-branch-content {
+  border-top: 1px solid rgba(241, 240, 236, 0.2);
+  min-height: 22rem;
+  padding-top: clamp(1.4rem, 4vh, 2.2rem);
+}
+
+.signal-branch-header {
+  font-family: var(--font-display), "Times New Roman", serif;
+  font-size: clamp(1.8rem, 4.2vw, 3.1rem);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.signal-branch-intro {
+  color: var(--signal-muted);
+  font-size: clamp(1rem, 1.45vw, 1.22rem);
+  line-height: 1.7;
+  margin: clamp(0.8rem, 2.5vh, 1.4rem) 0 0;
+  max-width: 52ch;
+}
+
+.signal-branch-sections {
+  display: grid;
+  gap: 1rem;
+  margin-top: clamp(1.6rem, 4vh, 2.4rem);
+}
+
+.signal-detail-panel {
+  border-top: 1px solid rgba(241, 240, 236, 0.17);
+  padding-top: 0.85rem;
+}
+
+.signal-detail-panel summary {
+  color: var(--signal-fg);
+  cursor: pointer;
+  font-size: clamp(0.95rem, 1.2vw, 1.08rem);
+  letter-spacing: 0.04em;
+  list-style: none;
+  text-transform: uppercase;
+}
+
+.signal-detail-panel summary::-webkit-details-marker {
+  display: none;
+}
+
+.signal-detail-panel p {
+  color: var(--signal-muted);
+  line-height: 1.65;
+  margin: 0.85rem 0 0;
+  max-width: 58ch;
+}
+
+.signal-detail-panel ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  list-style: none;
+  margin: 0.8rem 0 0;
+  padding: 0;
+}
+
+.signal-detail-panel li {
+  color: var(--signal-fg);
+  font-size: 0.88rem;
+  letter-spacing: 0.04em;
+  opacity: 0.78;
+  text-transform: uppercase;
+}
+
+.signal-branch-placeholder {
+  color: var(--signal-muted);
+  font-size: clamp(1rem, 1.35vw, 1.15rem);
+  letter-spacing: 0.03em;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .signal-content {
+    margin-left: clamp(2.2rem, 7.5vw, 3.6rem);
+  }
+
+  .signal-identity-line {
+    letter-spacing: 0.03em;
+  }
+
+  .signal-branch-nav {
+    gap: 0.55rem 0.8rem;
+  }
+
+  .signal-branch-label {
+    font-size: 0.82rem;
+  }
+
+  .signal-branch-content {
+    min-height: 20rem;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid rgba(241, 240, 236, 0.75);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

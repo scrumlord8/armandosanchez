@@ -3,10 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --signal-bg: #050506;
-  --signal-fg: #f1f0ec;
-  --signal-muted: rgba(241, 240, 236, 0.66);
-  --spine-x: clamp(1.2rem, 4vw, 3.25rem);
+  --retro-paper: #f4ecda;
+  --retro-gold: #ffb96f;
+  --retro-blue: #b8ceff;
+  --retro-screen-base: #101218;
+  --retro-screen-glow: rgba(158, 194, 255, 0.18);
+  --tv-overlay-left: 48.7%;
+  --tv-overlay-top: 54.6%;
+  --tv-overlay-width: min(21.8vw, 318px);
 }
 
 * {
@@ -21,219 +25,368 @@ body {
 }
 
 body {
-  background:
-    radial-gradient(1200px 600px at 82% 12%, rgba(255, 255, 255, 0.05), transparent 58%),
-    radial-gradient(900px 480px at 10% 82%, rgba(255, 255, 255, 0.03), transparent 55%),
-    var(--signal-bg);
-  color: var(--signal-fg);
+  background: #07080f;
+  color: var(--retro-paper);
   font-family: var(--font-body), "Segoe UI", sans-serif;
-  text-rendering: geometricPrecision;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
-.signal-section {
+.retro-scene {
+  position: relative;
   min-height: 100svh;
-  width: 100%;
+  background: #07080f;
 }
 
-.signal-section-opening {
+.retro-header {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 6;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 1.5rem;
-}
-
-.signal-section-reveal {
-  display: flex;
-  align-items: center;
-  padding: clamp(3rem, 8vh, 6rem) 1.5rem;
-}
-
-.signal-content {
-  margin-left: clamp(3.3rem, 10vw, 8rem);
-  max-width: min(70ch, 90vw);
-}
-
-.signal-reveal-group {
-  display: grid;
-  gap: clamp(0.9rem, 2.8vh, 1.5rem);
-}
-
-.signal-identity-line {
-  margin: 0;
-  color: var(--signal-fg);
-  font-size: clamp(1.1rem, 2.3vw, 2rem);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  line-height: 1.15;
-  text-transform: uppercase;
-}
-
-.signal-quote {
-  margin: clamp(2.2rem, 7vh, 4rem) 0 0;
-  max-width: 38ch;
-  color: var(--signal-muted);
-  font-size: clamp(1.05rem, 1.8vw, 1.4rem);
-  line-height: 1.6;
-}
-
-.signal-name {
-  font-family: var(--font-display), "Times New Roman", serif;
-  font-size: clamp(2.3rem, 7vw, 6.2rem);
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  line-height: 0.95;
-  text-transform: uppercase;
-}
-
-.signal-section-branches {
-  min-height: 100svh;
-  display: flex;
   align-items: flex-start;
-  padding: clamp(3.5rem, 10vh, 7rem) 1.5rem clamp(5rem, 11vh, 8rem);
+  padding: clamp(1.75rem, 4.2vw, 3.5rem) clamp(0.9rem, 2vw, 1.5rem) 0;
+  pointer-events: none;
 }
 
-.signal-branch-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem 0.95rem;
-  margin-bottom: clamp(1.6rem, 5vh, 2.7rem);
-}
-
-.signal-branch-label {
-  background: transparent;
-  border: 0;
-  color: var(--signal-muted);
-  cursor: pointer;
+.retro-sound-toggle {
+  position: absolute;
+  pointer-events: auto;
+  top: clamp(1rem, 2.6vw, 1.8rem);
+  right: clamp(0.75rem, 2.3vw, 1.4rem);
+  border: 1px solid rgba(236, 219, 187, 0.58);
+  border-radius: 2px;
+  background: linear-gradient(180deg, rgba(87, 57, 34, 0.88), rgba(34, 22, 15, 0.92));
+  color: rgba(246, 231, 205, 0.95);
   font-family: var(--font-body), "Segoe UI", sans-serif;
-  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
-  letter-spacing: 0.11em;
-  padding: 0;
-  text-transform: uppercase;
-  transition: color 220ms ease, opacity 220ms ease;
-}
-
-.signal-branch-label.is-hovered,
-.signal-branch-label.is-active {
-  color: var(--signal-fg);
-}
-
-.signal-branch-label.is-dimmed {
-  opacity: 0.32;
-}
-
-.signal-branch-content {
-  border-top: 1px solid rgba(241, 240, 236, 0.2);
-  min-height: 22rem;
-  padding-top: clamp(1.4rem, 4vh, 2.2rem);
-}
-
-.signal-branch-header {
-  font-family: var(--font-display), "Times New Roman", serif;
-  font-size: clamp(1.8rem, 4.2vw, 3.1rem);
+  font-size: 0.73rem;
   font-weight: 600;
   letter-spacing: 0.07em;
-  margin: 0;
   text-transform: uppercase;
-}
-
-.signal-branch-intro {
-  color: var(--signal-muted);
-  font-size: clamp(1rem, 1.45vw, 1.22rem);
-  line-height: 1.7;
-  margin: clamp(0.8rem, 2.5vh, 1.4rem) 0 0;
-  max-width: 52ch;
-}
-
-.signal-branch-sections {
-  display: grid;
-  gap: 1rem;
-  margin-top: clamp(1.6rem, 4vh, 2.4rem);
-}
-
-.signal-detail-panel {
-  border-top: 1px solid rgba(241, 240, 236, 0.17);
-  padding-top: 0.85rem;
-}
-
-.signal-detail-panel summary {
-  color: var(--signal-fg);
+  padding: 0.46rem 0.62rem;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 229, 184, 0.2),
+    0 3px 10px rgba(0, 0, 0, 0.38);
   cursor: pointer;
-  font-size: clamp(0.95rem, 1.2vw, 1.08rem);
-  letter-spacing: 0.04em;
-  list-style: none;
-  text-transform: uppercase;
+  transition: filter 180ms ease, transform 180ms ease;
 }
 
-.signal-detail-panel summary::-webkit-details-marker {
-  display: none;
+.retro-sound-toggle:hover,
+.retro-sound-toggle:focus-visible {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
 }
 
-.signal-detail-panel p {
-  color: var(--signal-muted);
-  line-height: 1.65;
-  margin: 0.85rem 0 0;
-  max-width: 58ch;
+.retro-room {
+  position: relative;
+  min-height: 100svh;
+  isolation: isolate;
+  overflow: hidden;
 }
 
-.signal-detail-panel ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 1rem;
-  list-style: none;
-  margin: 0.8rem 0 0;
-  padding: 0;
+.retro-room-backdrop,
+.retro-room-lamp-haze,
+.retro-room-film-grain,
+.retro-room-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
-.signal-detail-panel li {
-  color: var(--signal-fg);
-  font-size: 0.88rem;
-  letter-spacing: 0.04em;
-  opacity: 0.78;
-  text-transform: uppercase;
+.retro-room-backdrop {
+  inset: 0;
+  background-image:
+    linear-gradient(180deg, rgba(9, 10, 16, 0.08) 0%, rgba(8, 8, 12, 0.18) 100%),
+    radial-gradient(54% 50% at 24% 48%, rgba(255, 168, 84, 0.12), transparent 66%),
+    radial-gradient(48% 42% at 79% 26%, rgba(94, 128, 194, 0.1), transparent 72%),
+    var(--scene-image);
+  background-size: auto, auto, auto, contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: saturate(0.95) contrast(1.03) brightness(0.99);
 }
 
-.signal-branch-placeholder {
-  color: var(--signal-muted);
-  font-size: clamp(1rem, 1.35vw, 1.15rem);
-  letter-spacing: 0.03em;
-  line-height: 1.6;
-  margin: 0;
+.retro-room-lamp-haze {
+  background:
+    radial-gradient(42% 34% at 18% 49%, rgba(255, 177, 86, 0.1), transparent 70%),
+    radial-gradient(44% 36% at 48% 56%, rgba(255, 147, 67, 0.04), transparent 76%),
+    radial-gradient(34% 32% at 78% 36%, rgba(122, 156, 232, 0.05), transparent 72%);
+  mix-blend-mode: screen;
+  opacity: 0.5;
 }
 
-@media (max-width: 640px) {
-  .signal-content {
-    margin-left: clamp(2.2rem, 7.5vw, 3.6rem);
-  }
+.retro-room-film-grain {
+  opacity: 0.08;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.18) 0 1px, transparent 1px),
+    radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px),
+    radial-gradient(circle at 55% 45%, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px);
+  background-size: 3px 3px, 4px 4px, 5px 5px;
+}
 
-  .signal-identity-line {
-    letter-spacing: 0.03em;
-  }
+.retro-room-vignette {
+  background:
+    radial-gradient(circle at 50% 50%, transparent 45%, rgba(8, 8, 11, 0.46) 100%),
+    linear-gradient(180deg, rgba(3, 3, 5, 0.02), rgba(2, 2, 3, 0.3));
+}
 
-  .signal-branch-nav {
-    gap: 0.55rem 0.8rem;
-  }
+.retro-tv-anchor {
+  position: absolute;
+  z-index: 4;
+  left: var(--tv-overlay-left);
+  top: var(--tv-overlay-top);
+  width: var(--tv-overlay-width);
+  transform: translate(-50%, -50%);
+}
 
-  .signal-branch-label {
-    font-size: 0.82rem;
-  }
+.tv {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  min-width: 220px;
+}
 
-  .signal-branch-content {
-    min-height: 20rem;
-  }
+.tv-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.38));
+}
+
+.tv-screen {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: 8% / 10%;
+  overflow: hidden;
+  background: var(--retro-screen-base);
+  box-shadow:
+    inset 0 0 0 1px rgba(250, 245, 230, 0.1),
+    inset 0 0 44px rgba(0, 0, 0, 0.74),
+    inset 0 0 24px var(--retro-screen-glow);
+}
+
+.tv-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.022);
+  filter: saturate(0.84) contrast(1.09) brightness(0.92) blur(0.55px);
+}
+
+.tv-empty-state {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  color: rgba(234, 226, 208, 0.88);
+  font-size: clamp(0.72rem, 1.55vw, 0.92rem);
+  text-align: center;
+  line-height: 1.45;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(118, 138, 177, 0.18), transparent 64%),
+    linear-gradient(180deg, #2b303c 0%, #101319 100%);
+}
+
+.tv-empty-state code {
+  font-size: 0.95em;
+}
+
+.crt-effects {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.fx-vignette,
+.fx-scanlines,
+.fx-noise,
+.fx-rgb-separation,
+.fx-flicker,
+.fx-static {
+  position: absolute;
+  inset: 0;
+}
+
+.fx-vignette {
+  background-image:
+    var(--fx-vignette-image),
+    radial-gradient(circle at 50% 50%, transparent 52%, rgba(0, 0, 0, 0.52) 100%);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.86;
+}
+
+.fx-scanlines {
+  background-image:
+    var(--fx-scanlines-image),
+    repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.11) 0,
+      rgba(255, 255, 255, 0.11) 1px,
+      rgba(0, 0, 0, 0.22) 1px,
+      rgba(0, 0, 0, 0.22) 3px
+    );
+  background-size: cover, 100% 3px;
+  background-repeat: repeat;
+  opacity: 0.24;
+  mix-blend-mode: soft-light;
+}
+
+.fx-noise {
+  opacity: 0.16;
+  background-image:
+    var(--fx-noise-image),
+    radial-gradient(circle at 15% 28%, rgba(255, 255, 255, 0.18) 0 1px, transparent 1px),
+    radial-gradient(circle at 74% 66%, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px);
+  background-size: cover, 3px 3px, 4px 4px;
+  background-repeat: repeat;
+  animation: tv-noise-shift 220ms steps(2) infinite;
+}
+
+.fx-rgb-separation {
+  background:
+    linear-gradient(90deg, rgba(255, 47, 77, 0.16), transparent 32%),
+    linear-gradient(270deg, rgba(52, 182, 255, 0.16), transparent 32%);
+  opacity: 0.13;
+  mix-blend-mode: screen;
+  filter: blur(0.45px);
+}
+
+.fx-flicker {
+  background: rgba(255, 255, 255, 0.015);
+  animation: tv-flicker 150ms steps(2) infinite;
+}
+
+.fx-static {
+  opacity: 0;
+  background-image:
+    var(--fx-static-image),
+    linear-gradient(180deg, rgba(231, 233, 236, 0.62), rgba(43, 47, 52, 0.65));
+  background-size: cover;
+  mix-blend-mode: screen;
+}
+
+.crt-effects.is-transitioning .fx-static {
+  animation: tv-static-burst 360ms ease-out;
+}
+
+.tv-screen.is-transitioning .tv-image {
+  animation: tv-image-jolt 360ms ease-out;
 }
 
 :focus-visible {
-  outline: 2px solid rgba(241, 240, 236, 0.75);
+  outline: 2px solid rgba(230, 215, 189, 0.95);
   outline-offset: 3px;
 }
 
+@keyframes tv-noise-shift {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-2px, 1px);
+  }
+  100% {
+    transform: translate(1px, -2px);
+  }
+}
+
+@keyframes tv-flicker {
+  0% {
+    opacity: 0.08;
+  }
+  35% {
+    opacity: 0.03;
+  }
+  70% {
+    opacity: 0.09;
+  }
+  100% {
+    opacity: 0.05;
+  }
+}
+
+@keyframes tv-static-burst {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.95;
+  }
+  55% {
+    opacity: 0.45;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes tv-image-jolt {
+  0% {
+    opacity: 1;
+    transform: scale(1.022);
+    filter: saturate(0.84) contrast(1.09) brightness(0.92) blur(0.55px);
+  }
+  24% {
+    opacity: 0.62;
+    transform: scale(1.03) translateY(-1px);
+    filter: saturate(0.78) contrast(1.16) brightness(1.04) blur(0.35px);
+  }
+  62% {
+    opacity: 0.82;
+    transform: scale(1.02) translateY(1px);
+    filter: saturate(0.84) contrast(1.1) brightness(0.94) blur(0.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.022);
+    filter: saturate(0.84) contrast(1.09) brightness(0.92) blur(0.55px);
+  }
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --tv-overlay-left: 48.7%;
+    --tv-overlay-top: 54.5%;
+    --tv-overlay-width: min(30.2vw, 308px);
+  }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --tv-overlay-left: 48.8%;
+    --tv-overlay-top: 54.4%;
+    --tv-overlay-width: min(43.5vw, 258px);
+  }
+
+  .retro-header {
+    padding-top: clamp(1.25rem, 4vw, 2rem);
+  }
+
+  .retro-sound-toggle {
+    top: auto;
+    bottom: 0.9rem;
+    right: 0.8rem;
+  }
+
+  .tv {
+    min-width: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  .fx-noise,
+  .fx-flicker,
+  .crt-effects.is-transitioning .fx-static,
+  .tv-screen.is-transitioning .tv-image {
+    animation: none !important;
+  }
+
+  .retro-sound-toggle {
+    transition: none;
   }
 }
