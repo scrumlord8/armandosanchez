@@ -55,7 +55,7 @@ function preloadImage(src: string) {
 
 export function RetroTV({
   images,
-  intervalMs = 5000,
+  intervalMs = 8000,
   soundEnabled,
   staticSoundSources = DEFAULT_STATIC_SOUNDS
 }: RetroTVProps) {
