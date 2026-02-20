@@ -14,7 +14,12 @@ export function SoundToggle({ soundEnabled, onToggle }: SoundToggleProps) {
       aria-pressed={soundEnabled}
       aria-label={soundEnabled ? "Disable TV static audio" : "Enable TV static audio"}
     >
-      {soundEnabled ? "Sound: On" : "Sound: Off"}
+      <span className="retro-sound-toggle-led" aria-hidden="true" />
+      <span className="retro-sound-toggle-switch" aria-hidden="true">
+        <span className="retro-sound-toggle-thumb" />
+      </span>
+      <span className="retro-sound-toggle-label">Sound</span>
+      <span className="retro-sound-toggle-value">{soundEnabled ? "On" : "Off"}</span>
     </button>
   );
 }

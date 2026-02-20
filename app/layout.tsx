@@ -16,7 +16,7 @@ const bodyFont = Spectral({
 
 export const metadata: Metadata = {
   title: "Armando TV",
-  description: "Stay tuned for future updates ..."
+  description: "Stay tuned ..."
 };
 
 export default function RootLayout({
