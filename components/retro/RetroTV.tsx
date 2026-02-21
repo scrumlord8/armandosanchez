@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import NextImage from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { CrtEffects } from "@/components/retro/CrtEffects";
 import { useFirstAvailableImageAsset } from "@/components/retro/useFirstAvailableImageAsset";
@@ -94,10 +94,11 @@ export function RetroTV({
   const noiseImage = useFirstAvailableImageAsset(NOISE_IMAGE_CANDIDATES, "");
   const vignetteImage = useFirstAvailableImageAsset(VIGNETTE_IMAGE_CANDIDATES, "");
   const staticImage = useFirstAvailableImageAsset(STATIC_IMAGE_CANDIDATES, "");
+  const uniqueImages = useMemo(() => Array.from(new Set(images.filter(Boolean))), [images]);
 
-  const hasImages = images.length > 0;
-  const hasMultipleImages = images.length > 1;
-  const currentImage = hasImages ? images[currentIndex] : "";
+  const hasImages = uniqueImages.length > 0;
+  const hasMultipleImages = uniqueImages.length > 1;
+  const currentImage = hasImages ? uniqueImages[currentIndex] : "";
 
   const transitionTimings = useMemo(
     () =>
@@ -118,14 +119,14 @@ export function RetroTV({
   }, [currentIndex]);
 
   useEffect(() => {
-    if (images.length === 0) {
+    if (uniqueImages.length === 0) {
       setCurrentIndex(0);
       currentIndexRef.current = 0;
       pendingOrderRef.current = [];
       return;
     }
 
-    const order = createShuffledOrder(images.length);
+    const order = createShuffledOrder(uniqueImages.length);
     const firstIndex = order.shift() ?? 0;
 
     setCurrentIndex(firstIndex);
@@ -133,9 +134,9 @@ export function RetroTV({
     pendingOrderRef.current = order;
 
     if (order.length > 0) {
-      preloadImage(images[order[0]]);
+      preloadImage(uniqueImages[order[0]]);
     }
-  }, [images]);
+  }, [uniqueImages]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -207,7 +208,7 @@ export function RetroTV({
     }
 
     if (pendingOrderRef.current.length === 0) {
-      pendingOrderRef.current = createShuffledOrder(images.length, currentIndexRef.current);
+      pendingOrderRef.current = createShuffledOrder(uniqueImages.length, currentIndexRef.current);
     }
 
     const nextIndex = pendingOrderRef.current.shift();
@@ -216,7 +217,7 @@ export function RetroTV({
       return;
     }
 
-    preloadImage(images[nextIndex]);
+    preloadImage(uniqueImages[nextIndex]);
 
     isTransitioningRef.current = true;
     setIsTransitioning(true);
@@ -235,12 +236,12 @@ export function RetroTV({
       setCurrentIndex(nextIndex);
 
       if (pendingOrderRef.current.length === 0) {
-        pendingOrderRef.current = createShuffledOrder(images.length, nextIndex);
+        pendingOrderRef.current = createShuffledOrder(uniqueImages.length, nextIndex);
       }
 
       const followingIndex = pendingOrderRef.current[0];
       if (typeof followingIndex === "number") {
-        preloadImage(images[followingIndex]);
+        preloadImage(uniqueImages[followingIndex]);
       }
     }, transitionTimings.swapAtMs);
 
@@ -248,7 +249,7 @@ export function RetroTV({
       isTransitioningRef.current = false;
       setIsTransitioning(false);
     }, transitionTimings.endAtMs);
-  }, [hasMultipleImages, images, playStaticSound, transitionTimings.endAtMs, transitionTimings.swapAtMs]);
+  }, [hasMultipleImages, playStaticSound, transitionTimings.endAtMs, transitionTimings.swapAtMs, uniqueImages]);
 
   useEffect(() => {
     if (!hasMultipleImages) {
@@ -279,7 +280,7 @@ export function RetroTV({
       <div className="tv-frame">
         <div className={`tv-screen ${isTransitioning ? "is-transitioning" : ""}`}>
           {currentImage ? (
-            <Image
+            <NextImage
               src={currentImage}
               alt="Personal memory shown on CRT television"
               className="tv-image"

@@ -4,6 +4,7 @@ import { mkdir, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const IMAGE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif", ".gif"]);
+const EXTENSION_PREFERENCE = [".avif", ".webp", ".jpg", ".jpeg", ".png", ".gif"];
 
 const TARGETS = [
   {
@@ -18,11 +19,36 @@ const TARGETS = [
 
 async function getImageEntries(directory, webPrefix) {
   const entries = await readdir(directory, { withFileTypes: true });
+  const bestByStem = new Map();
 
-  return entries
-    .filter((entry) => entry.isFile())
+  for (const entry of entries) {
+    if (!entry.isFile()) {
+      continue;
+    }
+
+    const name = entry.name;
+    const extension = path.extname(name).toLowerCase();
+
+    if (!IMAGE_EXTENSIONS.has(extension)) {
+      continue;
+    }
+
+    const stem = path.basename(name, path.extname(name));
+    const current = bestByStem.get(stem);
+    const nextRank = EXTENSION_PREFERENCE.indexOf(extension);
+
+    if (!current) {
+      bestByStem.set(stem, { name, rank: nextRank });
+      continue;
+    }
+
+    if (nextRank !== -1 && (current.rank === -1 || nextRank < current.rank)) {
+      bestByStem.set(stem, { name, rank: nextRank });
+    }
+  }
+
+  return Array.from(bestByStem.values())
     .map((entry) => entry.name)
-    .filter((name) => IMAGE_EXTENSIONS.has(path.extname(name).toLowerCase()))
     .sort((a, b) => a.localeCompare(b))
     .map((name) => `${webPrefix}/${name}`);
 }
