@@ -7,6 +7,7 @@ import { useFirstAvailableImageAsset } from "@/components/retro/useFirstAvailabl
 
 type RetroTVProps = {
   images: string[];
+  manifestLoaded?: boolean;
   intervalMs?: number;
   soundEnabled: boolean;
   staticSoundSources?: readonly string[];
@@ -75,6 +76,7 @@ function preloadImage(src: string) {
 
 export function RetroTV({
   images,
+  manifestLoaded = true,
   intervalMs = 8000,
   soundEnabled,
   staticSoundSources = DEFAULT_STATIC_SOUNDS
@@ -82,6 +84,7 @@ export function RetroTV({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [containImages, setContainImages] = useState<Record<string, boolean>>({});
 
   const currentIndexRef = useRef(0);
   const isTransitioningRef = useRef(false);
@@ -99,6 +102,7 @@ export function RetroTV({
   const hasImages = uniqueImages.length > 0;
   const hasMultipleImages = uniqueImages.length > 1;
   const currentImage = hasImages ? uniqueImages[currentIndex] : "";
+  const currentImageUsesContain = currentImage ? containImages[currentImage] === true : false;
 
   const transitionTimings = useMemo(
     () =>
@@ -202,6 +206,36 @@ export function RetroTV({
     });
   }, [soundEnabled]);
 
+  const handleImageLoadComplete = useCallback(
+    (image: HTMLImageElement) => {
+      if (!currentImage) {
+        return;
+      }
+
+      const naturalWidth = image.naturalWidth;
+      const naturalHeight = image.naturalHeight;
+
+      if (!naturalWidth || !naturalHeight) {
+        return;
+      }
+
+      const aspectRatio = naturalWidth / naturalHeight;
+      const shouldContain = aspectRatio < 0.7;
+
+      setContainImages((previous) => {
+        if (previous[currentImage] === shouldContain) {
+          return previous;
+        }
+
+        return {
+          ...previous,
+          [currentImage]: shouldContain
+        };
+      });
+    },
+    [currentImage]
+  );
+
   const triggerChange = useCallback(() => {
     if (!hasMultipleImages || isTransitioningRef.current) {
       return;
@@ -283,16 +317,17 @@ export function RetroTV({
             <NextImage
               src={currentImage}
               alt="Personal memory shown on CRT television"
-              className="tv-image"
+              className={`tv-image ${currentImageUsesContain ? "is-contain" : "is-cover"}`}
               fill
               sizes="(max-width: 760px) 44vw, (max-width: 1200px) 30vw, 22vw"
               draggable={false}
+              onLoadingComplete={handleImageLoadComplete}
             />
-          ) : (
+          ) : manifestLoaded ? (
             <div className="tv-empty-state">
               Add images to <code>public/assets/personal_crt</code> and create <code>manifest.json</code>.
             </div>
-          )}
+          ) : null}
 
           <CrtEffects isTransitioning={isTransitioning} reducedMotion={reducedMotion} />
         </div>

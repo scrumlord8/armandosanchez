@@ -432,8 +432,17 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1.022);
   filter: saturate(0.84) contrast(1.09) brightness(0.92) blur(0.55px);
+}
+
+.tv-image.is-cover {
+  object-fit: cover;
+  transform: scale(1.022);
+}
+
+.tv-image.is-contain {
+  object-fit: contain;
+  transform: scale(1.04);
 }
 
 .tv-empty-state {
