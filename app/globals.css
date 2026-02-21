@@ -9,9 +9,10 @@
   --retro-screen-base: #101218;
   --retro-screen-glow: rgba(158, 194, 255, 0.18);
   --scene-aspect-ratio: 2048 / 1365;
-  --tv-overlay-left: 45.51%;
-  --tv-overlay-top: 47.75%;
-  --tv-overlay-width: 25.85%;
+  --tv-overlay-left: 45.95%;
+  --tv-overlay-top: 34.55%;
+  --tv-overlay-width: 21.85%;
+  --tv-overlay-height: calc(var(--tv-overlay-width) * 0.97);
 }
 
 * {
@@ -396,7 +397,7 @@ body {
   left: var(--tv-overlay-left);
   top: var(--tv-overlay-top);
   width: var(--tv-overlay-width);
-  aspect-ratio: 4 / 3;
+  height: var(--tv-overlay-height);
   transform: translate(-50%, -50%);
 }
 

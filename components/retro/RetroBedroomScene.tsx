@@ -8,6 +8,8 @@ import { useFirstAvailableImageAsset } from "@/components/retro/useFirstAvailabl
 import { loadMediaManifest } from "@/lib/media-manifest";
 
 const SCENE_IMAGE_CANDIDATES = [
+  "/assets/scene/bedroom-night-v2.webp",
+  "/assets/scene/bedroom-night-v2.png",
   "/assets/scene/bedroom-night.png",
   "/assets/scene/bedroom-night.webp"
 ] as const;
