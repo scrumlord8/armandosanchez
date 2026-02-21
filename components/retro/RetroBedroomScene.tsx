@@ -19,17 +19,33 @@ type SceneCssVars = CSSProperties & Record<"--scene-image", string>;
 export function RetroBedroomScene() {
   const [images, setImages] = useState<string[]>([]);
   const [soundEnabled, setSoundEnabled] = useState(false);
+  const [manifestLoaded, setManifestLoaded] = useState(false);
 
   const sceneImage = useFirstAvailableImageAsset(SCENE_IMAGE_CANDIDATES, "");
 
   useEffect(() => {
     let isMounted = true;
 
-    void loadMediaManifest().then((manifestImages) => {
-      if (isMounted) {
+    void loadMediaManifest()
+      .then((manifestImages) => {
+        if (!isMounted) {
+          return;
+        }
+
         setImages(manifestImages);
-      }
-    });
+      })
+      .catch(() => {
+        if (!isMounted) {
+          return;
+        }
+
+        setImages([]);
+      })
+      .finally(() => {
+        if (isMounted) {
+          setManifestLoaded(true);
+        }
+      });
 
     return () => {
       isMounted = false;
@@ -55,7 +71,7 @@ export function RetroBedroomScene() {
           <div className="retro-room-backdrop" aria-hidden="true" />
           <div className="retro-room-lamp-haze" aria-hidden="true" />
           <div className="retro-tv-anchor">
-            <RetroTV images={images} soundEnabled={soundEnabled} />
+            <RetroTV images={images} manifestLoaded={manifestLoaded} soundEnabled={soundEnabled} />
           </div>
         </div>
 
